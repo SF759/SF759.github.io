@@ -19,21 +19,23 @@
   <meta name="author" content="sjx">
   <meta name="keywords" content="">
   
-    <meta name="description" content="245机器上启动pdb微调：123conda activate llama_factorycd Downloads&#x2F;LLaMA-Factory&#x2F;export FORCE_TORCHRUN&#x3D;1  pdb：  12CUDA_VISIBLE_DEVICES&#x3D;1 python3 -m pdb $(which llamafactory-cli) train     --stage sft     --do_">
+    <meta name="description" content="https:&#x2F;&#x2F;blog.csdn.net&#x2F;John_Snowww&#x2F;article&#x2F;details&#x2F;129972288Mit6.s081环境配置踩坑之旅WSL2+VScode 编译路径： 1cd xv6-labs-2020  测试成绩： 1.&#x2F;grade-lab-util sleep  今天是2024.11.20,想在四个月之内在零碎时间把6.s081做完。加油！课程内容简介：https:&#x2F;&#x2F;mi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="pdb启动微调">
-<meta property="og:url" content="http://sjx.com/2024/11/27/pdb%E5%90%AF%E5%8A%A8%E5%BE%AE%E8%B0%83-1/index.html">
+<meta property="og:title" content="启动">
+<meta property="og:url" content="http://sjx.com/2024/11/27/%E5%90%AF%E5%8A%A8/index.html">
 <meta property="og:site_name" content="Sjx">
-<meta property="og:description" content="245机器上启动pdb微调：123conda activate llama_factorycd Downloads&#x2F;LLaMA-Factory&#x2F;export FORCE_TORCHRUN&#x3D;1  pdb：  12CUDA_VISIBLE_DEVICES&#x3D;1 python3 -m pdb $(which llamafactory-cli) train     --stage sft     --do_">
+<meta property="og:description" content="https:&#x2F;&#x2F;blog.csdn.net&#x2F;John_Snowww&#x2F;article&#x2F;details&#x2F;129972288Mit6.s081环境配置踩坑之旅WSL2+VScode 编译路径： 1cd xv6-labs-2020  测试成绩： 1.&#x2F;grade-lab-util sleep  今天是2024.11.20,想在四个月之内在零碎时间把6.s081做完。加油！课程内容简介：https:&#x2F;&#x2F;mi">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-11-26T17:18:10.000Z">
-<meta property="article:modified_time" content="2024-11-26T17:52:18.259Z">
+<meta property="og:image" content="http://sjx.com/image.png">
+<meta property="article:published_time" content="2024-11-26T17:34:25.000Z">
+<meta property="article:modified_time" content="2024-11-26T17:41:34.405Z">
 <meta property="article:author" content="sjx">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://sjx.com/image.png">
   
   
   
-  <title>pdb启动微调 - Sjx</title>
+  <title>启动 - Sjx</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +201,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="pdb启动微调"></span>
+            <span id="subtitle" data-typed-text="启动"></span>
           
         </div>
 
@@ -210,7 +212,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-11-27 01:18" pubdate>
+        <time datetime="2024-11-27 01:34" pubdate>
           2024年11月27日 凌晨
         </time>
       </span>
@@ -222,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          71 字
+          808 字
         
       </span>
     
@@ -233,7 +235,7 @@
         
         
         
-          1 分钟
+          7 分钟
         
       </span>
     
@@ -270,16 +272,33 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">pdb启动微调</h1>
+            <h1 id="seo-header">启动</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="245机器上启动pdb微调："><a href="#245机器上启动pdb微调：" class="headerlink" title="245机器上启动pdb微调："></a>245机器上启动pdb微调：</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">conda activate llama_factory<br>cd Downloads/LLaMA-Factory/<br><span class="hljs-built_in">export</span> <span class="hljs-attribute">FORCE_TORCHRUN</span>=1<br></code></pre></td></tr></table></figure>
-<ul>
-<li><strong>pdb：</strong></li>
-</ul>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">CUDA_VISIBLE_DEVICES=1 python3 -m pdb $<span class="hljs-params">(which llamafactory-cli)</span> train     <span class="hljs-params">--stage</span> sft     <span class="hljs-params">--do_train</span>     <span class="hljs-params">--model_name_or_path</span> <span class="hljs-string">/home/dell/sdb/.cache/Qwen2-0___5B-Instruct</span>     <span class="hljs-params">--dataset</span> identity     <span class="hljs-params">--dataset_dir</span> <span class="hljs-string">./data</span>     <span class="hljs-params">--template</span> qwen     <span class="hljs-params">--finetuning_type</span> freeze     <span class="hljs-params">--output_dir</span> <span class="hljs-string">/home/dell/sdb/saves/Qwen2-0___5B-Instruct/freeze/sft</span>     <span class="hljs-params">--overwrite_cache</span>     <span class="hljs-params">--overwrite_output_dir</span>     <span class="hljs-params">--cutoff_len</span> 1024     <span class="hljs-params">--preprocessing_num_workers</span> 16     <span class="hljs-params">--per_device_train_batch_size</span> 2     <span class="hljs-params">--per_device_eval_batch_size</span> 1     <span class="hljs-params">--gradient_accumulation_steps</span> 8     <span class="hljs-params">--lr_scheduler_type</span> cosine     <span class="hljs-params">--logging_steps</span> 50     <span class="hljs-params">--warmup_steps</span> 20     <span class="hljs-params">--save_steps</span> 100     <span class="hljs-params">--eval_steps</span> 50     <span class="hljs-params">--evaluation_strategy</span> steps     <span class="hljs-params">--load_best_model_at_end</span>     <span class="hljs-params">--learning_rate</span> 5e-5     <span class="hljs-params">--num_train_epochs</span> 5.0     <span class="hljs-params">--max_samples</span> 1000     <span class="hljs-params">--val_size</span> 0.1     <span class="hljs-params">--plot_loss</span>     <span class="hljs-params">--fp16</span>     <span class="hljs-params">--deepspeed</span> examples/deepspeed/ds_z3_offload_config.json<br><br></code></pre></td></tr></table></figure>
+                <p><a href="uri"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/John_Snowww/article/details/129972288">https://blog.csdn.net/John_Snowww/article/details/129972288</a><br>Mit6.s081环境配置踩坑之旅WSL2+VScode</p>
+<p><strong>编译路径：</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">cd</span> xv6-labs-<span class="hljs-number">2020</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>测试成绩：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./grade-lab-util <span class="hljs-built_in">sleep</span><br></code></pre></td></tr></table></figure>
+
+<p>今天是2024.11.20,想在四个月之内在零碎时间把6.s081做完。加油！<br><strong>课程内容简介：</strong><a href="uri"></a><a target="_blank" rel="noopener" href="https://mit-public-courses-cn-translatio.gitbook.io/mit6-s081/lec01-introduction-and-examples/1.1-ke-cheng-jian-jie">https://mit-public-courses-cn-translatio.gitbook.io/mit6-s081/lec01-introduction-and-examples/1.1-ke-cheng-jian-jie</a></p>
+<h2 id="exec系统调用"><a href="#exec系统调用" class="headerlink" title="exec系统调用"></a>exec系统调用</h2><p>exec系统调用会保留当前的文件描述符表单。所以任何在exec系统调用之前的文件描述符，例如0，1，2等。它们在新的程序中表示相同的东西。<br>通常来说exec系统调用不会返回，因为exec会完全替换当前进程的内存，相当于当前进程不复存在了，所以exec系统调用已经没有地方能返回了。<br>所以，exec系统调用从文件中读取指令，执行这些指令，然后就没有然后了。exec系统调用只会当出错时才会返回，因为某些错误会阻止操作系统为你运行文件中的指令，例如程序文件根本不存在，因为exec系统调用不能找到文件，exec会返回-1来表示：出错了，我找不到文件。所以通常来说exec系统调用不会返回，它只会在kernel不能运行相应的文件时返回。</p>
+<p>实际上，当我们在Shell中运行类似于“echo a b c”的指令，或者ls，或者任何命令，我们不会想要代替Shell进程，所以我们不会希望Shell执行exec系统调用。如果我们这么做了，这里会用echo指令来替代Shell进程，当echo退出了，一切就结束了。所以我们不想要echo替代Shell。实际上，Shell会执行fork，之后fork出的子进程再调用exec系统调用，这是一个非常常见的Unix程序调用风格。对于那些想要运行程序，但是还希望能拿回控制权的场景，可以先执行fork系统调用，然后在子进程中调用exec。</p>
+<p><img src="/image.png" srcset="/img/loading.gif" lazyload alt="alt text"><br>这里wait的参数status，是一种让退出的子进程以一个整数（32bit的数据）的格式与等待的父进程通信方式。所以在第17行，exit的参数是1，操作系统会将1从退出的子进程传递到第20行，也就是等待的父进程处。&amp;status，是将status对应的地址传递给内核，内核会向这个地址写入子进程向exit传入的参数。</p>
+<p>Unix中的风格是，如果一个程序成功的退出了，那么exit的参数会是0，如果出现了错误，那么就会像第17行一样，会向exit传递1。所以，如果你关心子进程的状态的话，父进程可以读取wait的参数，并决定子进程是否成功的完成了。<br><strong>代码：</strong><br><a href="uri"></a><a target="_blank" rel="noopener" href="https://tarplkpqsm.feishu.cn/docs/doccnoBgv1TQlj4ZtVnP0hNRETd">https://tarplkpqsm.feishu.cn/docs/doccnoBgv1TQlj4ZtVnP0hNRETd</a><br><strong>课程教材：</strong><br><a href="uri"></a><a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.828/2021/xv6/book-riscv-rev2.pdf">https://pdos.csail.mit.edu/6.828/2021/xv6/book-riscv-rev2.pdf</a><br><strong>实验：</strong><br><a href="uri"></a><a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.828/2021/labs/util.html">https://pdos.csail.mit.edu/6.828/2021/labs/util.html</a></p>
+<p><strong>实验视频：</strong><br><a href="uri"></a><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1oP4y1G7Pg?spm_id_from=333.788.videopod.sections&vd_source=734da2b69f3fa1c56557f3c2de759de4">https://www.bilibili.com/video/BV1oP4y1G7Pg?spm_id_from=333.788.videopod.sections&amp;vd_source=734da2b69f3fa1c56557f3c2de759de4</a></p>
+<h1 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h1><p>第一个窗口：</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">make qemu-gdb</span><br></code></pre></td></tr></table></figure>
+<p>第二个窗口：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;add-auto-load-safe-path /home/sjx/xv6-labs-2020/.gdbinit &quot;</span> &gt;&gt; ~/.gdbinit<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">gdb-multiarch</span><br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">lsof</span> -i :<span class="hljs-number">26000</span><br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -297,7 +316,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Llama-factory/" class="category-chain-item">Llama_factory</a>
+  <a href="/categories/6-s081/" class="category-chain-item">6.s081</a>
   
   
 
@@ -317,8 +336,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>pdb启动微调</div>
-      <div>http://sjx.com/2024/11/27/pdb启动微调-1/</div>
+      <div>启动</div>
+      <div>http://sjx.com/2024/11/27/启动/</div>
     </div>
     <div class="license-meta">
       
@@ -362,18 +381,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/11/27/deepspeed-runtime-engine-py/" title="deepspeed/runtime/engine.py">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">deepspeed/runtime/engine.py</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/11/27/%E6%A3%80%E6%9F%A5%E7%82%B9%E5%AD%98%E5%82%A8%E6%B5%81%E7%A8%8B/" title="检查点存储流程">
-                        <span class="hidden-mobile">检查点存储流程</span>
+                      <a href="/2024/11/27/pingpong%E6%9C%AA%E8%A7%A3%E4%B9%8B%E8%B0%9C/" title="pingpong未解之谜">
+                        <span class="hidden-mobile">pingpong未解之谜</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
