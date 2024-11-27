@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>hexo管理</title>
+    <link href="/2024/11/27/hexo%E7%AE%A1%E7%90%86/"/>
+    <url>/2024/11/27/hexo%E7%AE%A1%E7%90%86/</url>
+    
+    <content type="html"><![CDATA[<h2 id="路径"><a href="#路径" class="headerlink" title="路径"></a>路径</h2><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-symbol">C:</span>\Hexo\blog<br></code></pre></td></tr></table></figure><h2 id="新建文章"><a href="#新建文章" class="headerlink" title="新建文章"></a>新建文章</h2><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">hexo <span class="hljs-built_in">new</span> <span class="hljs-built_in">post</span><br></code></pre></td></tr></table></figure><h2 id="新建页面"><a href="#新建页面" class="headerlink" title="新建页面"></a>新建页面</h2><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs actionscript">hexo <span class="hljs-keyword">new</span> page aaa<br></code></pre></td></tr></table></figure><h2 id="新建分类"><a href="#新建分类" class="headerlink" title="新建分类"></a>新建分类</h2><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs actionscript">hexo <span class="hljs-keyword">new</span> page categories<br></code></pre></td></tr></table></figure><h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">title</span>: Llama_factory<br><span class="hljs-attribute">date</span>: <span class="hljs-number">2024</span>-<span class="hljs-number">11</span>-<span class="hljs-number">27</span> <span class="hljs-number">01</span>:<span class="hljs-number">38</span>:<span class="hljs-number">54</span><br><span class="hljs-attribute">type</span>: <span class="hljs-string">&quot;categories&quot;</span><br></code></pre></td></tr></table></figure><h2 id="在文章前加："><a href="#在文章前加：" class="headerlink" title="在文章前加："></a>在文章前加：</h2><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey"><span class="hljs-title">categories:</span> Llam<span class="hljs-built_in">a_factory</span><br></code></pre></td></tr></table></figure><h2 id="本地启动："><a href="#本地启动：" class="headerlink" title="本地启动："></a>本地启动：</h2><p><a href="uri"></a><a href="http://localhost:4000/admin/">http://localhost:4000/admin/</a><br><a href="uri"></a><a href="http://localhost:4000/">http://localhost:4000</a></p><h2 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h2><p><a href="uri"></a> <a href="https://dns.console.aliyun.com/?spm=5176.100251.111252.17.7e7e4f15YdaDG6#/dns/domainList">https://dns.console.aliyun.com/?spm=5176.100251.111252.17.7e7e4f15YdaDG6#/dns/domainList</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>hexo使用</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>启动</title>
     <link href="/2024/11/27/%E5%90%AF%E5%8A%A8/"/>
     <url>/2024/11/27/%E5%90%AF%E5%8A%A8/</url>
