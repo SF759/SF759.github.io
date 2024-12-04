@@ -229,15 +229,177 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/11/27/6-s081-Lab2/" target="_self">
+          6.s081 Lab2-trace实现
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/27/6-s081-Lab2/" target="_self">
+        <div>
+          欢迎来到我的6.s081频道！
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-11-27 01:34" pubdate>
+              2024-11-27
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/6-s081/" class="category-chain-item">6.s081</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/11/27/Llama-factory%E9%83%A8%E7%BD%B2%E8%B8%A9%E5%9D%91%E4%B9%8B%E6%97%85/" target="_self">
+          Llama_factory部署踩坑之旅
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/27/Llama-factory%E9%83%A8%E7%BD%B2%E8%B8%A9%E5%9D%91%E4%B9%8B%E6%97%85/" target="_self">
+        <div>
+          记录一个很巧的报错，说来也巧，2024.11.18和同门在新机器上部署代码跑模型，早上在我工位电脑远程成功跑起模型，由于工作需要先在我电脑终止，下午在同门笔记本远程连接后同样的conda环境和路径命令跑不了了。重新创建conda环境拉取代码后一直报一个typo模块缺失的错，手动安装并永久添加到系统环境也无法解决，但是在吃饭的两个小时时间段有人提了一模一样的issue,第一反应是问同门是否是他提的
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-11-27 01:32" pubdate>
+              2024-11-27
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Llama-factory/" class="category-chain-item">Llama_factory</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/11/27/deepspeed-runtime-engine-py/" target="_self">
+          deepspeed/runtime/engine.py
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/27/deepspeed-runtime-engine-py/" target="_self">
+        <div>
+          确定检查点保存的配置12345678def _save_checkpoint(self, save_dir, tag, client_state=&#123;&#125;, exclude_frozen_parameters=False):       save_path = self._get_ckpt_name(save_dir, tag)       zero_optimizer_state
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-11-27 01:32" pubdate>
+              2024-11-27
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Llama-factory/" class="category-chain-item">Llama_factory</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/11/27/pdb%E5%90%AF%E5%8A%A8%E5%BE%AE%E8%B0%83-1/" target="_self">
-          pdb启动微调
+          pdb+gdb启动微调
         </a>
       </h2>
 
       
       <a class="index-excerpt index-excerpt__noimg" href="/2024/11/27/pdb%E5%90%AF%E5%8A%A8%E5%BE%AE%E8%B0%83-1/" target="_self">
         <div>
-          245机器上启动pdb微调：123conda activate llama_factorycd Downloads/LLaMA-Factory/export FORCE_TORCHRUN=1  pdb：  12CUDA_VISIBLE_DEVICES=1 python3 -m pdb $(which llamafactory-cli) train     --stage sft     --do_
+          245机器上启动调试：123conda activate torch_new_envcd /home/dell/sdb/LLaMA-Factoryexport FORCE_TORCHRUN=1 1CUDA_VISIBLE_DEVICES=0 python3 $(which llamafactory-cli) train   --stage sft   --do_train   --model_na
         </div>
       </a>
 
