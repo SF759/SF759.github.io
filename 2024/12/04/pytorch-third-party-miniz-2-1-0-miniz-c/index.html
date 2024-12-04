@@ -27,7 +27,7 @@
 <meta property="og:description" content="write_record &#x2F;home&#x2F;dell&#x2F;sdb&#x2F;pytorch&#x2F;torch&#x2F;csrc&#x2F;jit&#x2F;python&#x2F;init.cpp:14581234567891011.def(          &quot;write_record&quot;,          [](PyTorchStreamWrite">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-04T10:24:47.000Z">
-<meta property="article:modified_time" content="2024-12-04T15:12:03.881Z">
+<meta property="article:modified_time" content="2024-12-04T15:31:15.687Z">
 <meta property="article:author" content="sjx">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -485,11 +485,11 @@
 <li>user_extra_data_central 和 user_extra_data_central_len：用户提供的额外数据，用于存储在中央目录中。</li>
 </ul>
 <h2 id="pwrite写入"><a href="#pwrite写入" class="headerlink" title="pwrite写入"></a>pwrite写入</h2><ol>
-<li>9.12.3写入local_dir_header(“PK\003\004\000\000\b\b”, ‘\000’ &lt;repeats 18 times&gt;, “&#x2F;\000#”),sizeof(local_dir_header)&#x3D;30</li>
-<li>9.12.4写入pArchive_name( 0x58d23310 “zero_pp_rank_0_mp_rank_00_model_states&#x2F;data&#x2F;292”),archive_name_size&#x3D;47</li>
+<li>9.12.3写入local_dir_header(“<strong>PK\003\004\000\000\b\b”, ‘\000’ &lt;repeats 18 times&gt;, “&#x2F;\000#</strong>“),sizeof(local_dir_header)&#x3D;30</li>
+<li>9.12.4写入pArchive_name( 0x58d23310 “<strong>zero_pp_rank_0_mp_rank_00_model_states&#x2F;data&#x2F;292</strong>“),archive_name_size&#x3D;47</li>
 <li>9.13写入user_extra_data( 0x5b005030 “FB\037”),user_extra_data_len&#x3D;35</li>
 <li>9.14写入pBuf((const void *) 0x7ee300800400),buf_size&#x3D;1792</li>
-<li>9.16.2写入local_dir_footer,local_dir_footer_size&#x3D;16,类似于”PK\a\bҹ\355\060\020\063\322X\000\000\000\000’\000\000\000\000\000\000”</li>
+<li>9.16.2写入local_dir_footer,local_dir_footer_size&#x3D;16,类似于”<strong><strong>PK\a\bҹ\355\060\020\063\322X\000\000\000\000’\000\000\000\000\000\000</strong></strong>“</li>
 </ol>
 <ul>
 <li>local_dir_footer包括</li>
