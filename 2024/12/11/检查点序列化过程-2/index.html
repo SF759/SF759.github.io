@@ -1,0 +1,733 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sjx">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="save(k) save_str obj:’model_state_dict’ n:16 data:b’X\x10\x00\x00\x00model_state_dict’ self.memoize(obj) idx:1 obj:’model_state_dict’ id(obj):131443899919424  save(v) t:collections.OrderedDict f:None">
+<meta property="og:type" content="article">
+<meta property="og:title" content="检查点序列化过程-2">
+<meta property="og:url" content="http://sjx.com/2024/12/11/%E6%A3%80%E6%9F%A5%E7%82%B9%E5%BA%8F%E5%88%97%E5%8C%96%E8%BF%87%E7%A8%8B-2/index.html">
+<meta property="og:site_name" content="Sjx">
+<meta property="og:description" content="save(k) save_str obj:’model_state_dict’ n:16 data:b’X\x10\x00\x00\x00model_state_dict’ self.memoize(obj) idx:1 obj:’model_state_dict’ id(obj):131443899919424  save(v) t:collections.OrderedDict f:None">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-12-11T15:54:32.000Z">
+<meta property="article:modified_time" content="2024-12-11T15:55:27.279Z">
+<meta property="article:author" content="sjx">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>检查点序列化过程-2 - Sjx</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sjx.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>夹心</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="检查点序列化过程-2"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-12-11 23:54" pubdate>
+          2024年12月11日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          393 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          4 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">检查点序列化过程-2</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="save-k"><a href="#save-k" class="headerlink" title="save(k)"></a>save(k)</h3><ul>
+<li>save_str</li>
+<li>obj:’model_state_dict’</li>
+<li>n:16</li>
+<li>data:b’X\x10\x00\x00\x00model_state_dict’</li>
+<li>self.memoize(obj)</li>
+<li>idx:1 obj:’model_state_dict’</li>
+<li>id(obj):131443899919424</li>
+</ul>
+<h3 id="save-v"><a href="#save-v" class="headerlink" title="save(v)"></a>save(v)</h3><ul>
+<li>t:collections.OrderedDict</li>
+<li>f:None</li>
+<li>检查一个可能存在的“私有分发表”（dispatch table）,找不到</li>
+<li>是否是 Python 的类类型（type）</li>
+<li><strong>reduce_ex</strong> 方法存在，rv &#x3D; reduce(self.proto)</li>
+<li>rv &#x3D; reduce(self.proto)：调用 <strong>reduce_ex</strong> 方法，并将返回值存储在 rv 中。</li>
+<li>rv是一个元祖tuple</li>
+<li>l &#x3D; len(rv)</li>
+<li>5</li>
+<li>最终调用save_reduce</li>
+</ul>
+<h3 id="save-reduce"><a href="#save-reduce" class="headerlink" title="save_reduce"></a>save_reduce</h3><ul>
+<li>func:&lt;class ‘collections.OrderedDict’&gt;</li>
+<li>args:() rv,tuple</li>
+<li>save(func)</li>
+</ul>
+<h3 id="save-func"><a href="#save-func" class="headerlink" title="save(func)"></a>save(func)</h3><ul>
+<li>save(type)</li>
+</ul>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs crystal"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">save_type</span></span>(<span class="hljs-keyword">self</span>, obj):<br>       <span class="hljs-keyword">return</span> <span class="hljs-keyword">self</span>.save_global(obj)<br><br>   dispatch[FunctionType] = save_global<br>   dispatch[<span class="hljs-keyword">type</span>] = save_type<br></code></pre></td></tr></table></figure>
+<ul>
+<li><p>self.save_global(obj)</p>
+</li>
+<li><p>obj&#x2F;obj2:&lt;class ‘collections.OrderedDict’&gt;</p>
+</li>
+<li><p>name&#x2F;lastname:’OrderedDict’</p>
+</li>
+<li><p>module_name:’collections’</p>
+</li>
+<li><p><strong>parent&#x2F;module</strong>:<strong>import</strong>(module_name, level&#x3D;0):&lt;module ‘collections’ from ‘&#x2F;home&#x2F;dell&#x2F;anaconda3&#x2F;envs&#x2F;torch_new_env&#x2F;lib&#x2F;python3.11&#x2F;collections&#x2F;__init__.py’&gt;</p>
+</li>
+<li><p>write(data):b’ccollections\nOrderedDict\n’</p>
+</li>
+<li><p>memo(idx(2)):b’q\x02’</p>
+</li>
+</ul>
+<h3 id="save-args"><a href="#save-args" class="headerlink" title="save(args)"></a>save(args)</h3><ul>
+<li>save_tuple(self, obj)</li>
+<li>obj:()<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs oxygene">def save_tuple(<span class="hljs-keyword">self</span>, obj):<br>      <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> obj: # <span class="hljs-keyword">tuple</span> <span class="hljs-keyword">is</span> <span class="hljs-keyword">empty</span><br>           <span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.bin:<br>               <span class="hljs-keyword">self</span>.write(EMPTY_TUPLE)<br>           <span class="hljs-keyword">else</span>:<br>               <span class="hljs-keyword">self</span>.write(MARK + <span class="hljs-keyword">TUPLE</span>)<br>           return<br></code></pre></td></tr></table></figure></li>
+<li>tuple是空，write(EMPTY_TUPLE):b’)’</li>
+<li>write(REDUCE)：b’R’</li>
+</ul>
+<h3 id="memo-obj"><a href="#memo-obj" class="headerlink" title="memo(obj)"></a>memo(obj)</h3><ul>
+<li>memo(idx(3)):b’q\x03’</li>
+<li>id(obj):132101266175680</li>
+<li>_batch_setitems</li>
+</ul>
+<h2 id="n-7-batch-setitems"><a href="#n-7-batch-setitems" class="headerlink" title="n&#x3D;7 _batch_setitems"></a>n&#x3D;7 _batch_setitems</h2><h3 id="save-k-1"><a href="#save-k-1" class="headerlink" title="save(k)"></a>save(k)</h3><ul>
+<li>write(MARK):b’(‘</li>
+<li>save_str(embedding.weight)</li>
+<li>write(b’X\x10\x00\x00\x00embedding.weight’)</li>
+<li>memo(b’q\x04’)</li>
+</ul>
+<h3 id="save-v-1"><a href="#save-v-1" class="headerlink" title="save(v)"></a>save(v)</h3><ul>
+<li>rv &#x3D; reduce(self.proto),看起来像TypedStorage<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs subunit"> <span class="hljs-string">-2</span>.759326696395874<br> <span class="hljs-string">-0</span>.4928496479988098<br> <span class="hljs-string">-0</span>.9460598826408386<br> 0.12430991232395172<br> <span class="hljs-string">-0</span>.8162614107131958<br> <span class="hljs-string">-0</span>.46302852034568787<br> 2.887676239013672<br> 0.2881816625595093<br> <span class="hljs-string">-0</span>.3105534017086029<br> <span class="hljs-string">-0</span>.1721319556236267<br> 1.5114414691925049<br> 0.6535921096801758<br>[torch.storage.TypedStorage(dtype=torch.float32, device=cpu) of size 10000], 0, (10000, 1), (1, 1), False, OrderedDict()))<br></code></pre></td></tr></table></figure></li>
+<li>save_reduce()</li>
+<li>save(func):&lt;function _rebuild_tensor_v2 at 0x7825cb0ff060&gt;</li>
+<li>save(args) args看起来就是rv</li>
+<li>obj<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs inform7">tensor(<span class="hljs-comment">[<span class="hljs-comment">[ 1.1894]</span>,</span><br><span class="hljs-comment">        <span class="hljs-comment">[-0.5411]</span>,</span><br><span class="hljs-comment">        <span class="hljs-comment">[-2.4535]</span>,</span><br><span class="hljs-comment">        ...,</span><br><span class="hljs-comment">        <span class="hljs-comment">[-0.1721]</span>,</span><br><span class="hljs-comment">        <span class="hljs-comment">[ 1.5114]</span>,</span><br><span class="hljs-comment">        <span class="hljs-comment">[ 0.6536]</span>]</span>)<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="save-func-1"><a href="#save-func-1" class="headerlink" title="save(func)"></a>save(func)</h3><ul>
+<li>save_global</li>
+<li>name:’_rebuild_tensor_v2’</li>
+<li>module_name:’torch._utils’</li>
+<li>write(b’ctorch._utils\n_rebuild_tensor_v2\n_rebuild_tensor_v2\n’)</li>
+<li>memo(b’q\x05’)</li>
+</ul>
+<h3 id="save-args-1"><a href="#save-args-1" class="headerlink" title="save(args)"></a>save(args)</h3><ul>
+<li>save_tuple</li>
+<li>write(MARK):b’(‘</li>
+<li>save(element)</li>
+</ul>
+<h3 id="persistent-id"><a href="#persistent-id" class="headerlink" title="persistent_id"></a>persistent_id</h3><figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs elm"><span class="hljs-title">if</span> isinstance(obj, torch.storage.<span class="hljs-type">TypedStorage</span>):<br>                # <span class="hljs-type">TODO</span>: <span class="hljs-type">Once</span> we decide to break serialization <span class="hljs-type">FC</span>, this <span class="hljs-keyword">case</span><br>                # can be deleted<br>                storage = obj._untyped_storage<br>                print(obj._untyped_storage)<br>                storage_d<span class="hljs-keyword">type</span> = obj.dtype<br>                storage_type_str = obj._pickle_storage_type()<br>                storage_<span class="hljs-keyword">type</span> = getattr(torch, storage_type_str)<br>                storage_numel = obj._size()<br></code></pre></td></tr></table></figure>
+<ul>
+<li>storage_dtype:torch.float32</li>
+<li>storage_type_str:’FloatStorage’</li>
+<li>storage_type:&lt;class ‘torch.FloatStorage’&gt;</li>
+<li>storage_numel:10000</li>
+<li>storage_key&#x3D;0<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">save_pers</span>(<span class="hljs-params">self, pid</span>):<br>       <span class="hljs-comment"># Save a persistent id reference</span><br>       <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.<span class="hljs-built_in">bin</span>:<br>           <span class="hljs-variable language_">self</span>.save(pid, save_persistent_id=<span class="hljs-literal">False</span>)<br>           <span class="hljs-variable language_">self</span>.write(BINPERSID)<br></code></pre></td></tr></table></figure></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>检查点序列化过程-2</div>
+      <div>http://sjx.com/2024/12/11/检查点序列化过程-2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sjx</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年12月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/12/10/%E6%A3%80%E6%9F%A5%E7%82%B9%E5%BA%8F%E5%88%97%E5%8C%96%E8%BF%87%E7%A8%8B/" title="检查点序列化过程">
+                        <span class="hidden-mobile">检查点序列化过程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"FdLIFXUmZiqNkK2JMYZjidk0-MdYXbMMI","appKey":"pquy4WREX39yXL7yoc3hhWIo","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://fdlifxum.api.lncldglobal.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
